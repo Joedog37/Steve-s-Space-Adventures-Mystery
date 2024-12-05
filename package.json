@@ -1,5 +1,5 @@
 {
-  "name": "Steve's Space Adevnture Mystery",
+  "name": "steves-space-adventure-mystery",
   "version": "1.0.0",
   "description": "A new project",
   "main": "server.js",
@@ -7,6 +7,16 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^5.0.1"
-  }
+    "express": "^5.0.1",
+    "express-handlebars": "^8.0.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/steves-space-adventure-mystery.git"
+  },
+  "author": "joesph-rice",
+  "license": "MIT"
 }
