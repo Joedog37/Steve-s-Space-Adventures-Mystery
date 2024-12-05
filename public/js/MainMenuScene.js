@@ -1,11 +1,11 @@
-import AudioManager from './js/AudioManager.js';
-import BackgroundManager from '.js/BackgroundManager.js';
-import createStartButton from './js/buttons/StartButton.js';
-import createLoadButton from './js/buttons/LoadButton.js';
-import createSettingsButton from './js/buttons/SettingsButton.js';
-import createCreditsButton from './js/buttons/CreditsButton.js';
-import createFeedbackButton from './js/buttons/FeedbackButton.js';
-import createExitButton from './js/buttons/ExitButton.js';
+import AudioManager from 'public/js/AudioManager.js';
+import BackgroundManager from 'public/js/BackgroundManager.js';
+import createStartButton from 'public/js/buttons/StartButton.js';
+import createLoadButton from 'public/js/buttons/LoadButton.js';
+import createSettingsButton from 'public/js/buttons/SettingsButton.js';
+import createCreditsButton from 'public/js/buttons/CreditsButton.js';
+import createFeedbackButton from 'public/js/buttons/FeedbackButton.js';
+import createExitButton from 'public/js/buttons/ExitButton.js';
 
 class MainMenuScene extends Phaser.Scene {
     constructor() {

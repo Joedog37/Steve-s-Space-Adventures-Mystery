@@ -5,10 +5,9 @@ const port = process.env.PORT || 3000;
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + 'src/pages/index.hbs');
+  res.sendFile(__dirname + '/src/pages/index.hbs');
 });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-

@@ -1,6 +1,6 @@
-import AudioAssetManager from './js/AudioAssetManager.js';
-import AudioManager from './js/AudioManager.js';
-import BackgroundManager from './js/BackgroundManager.js';
+import AudioAssetManager from 'public/js/AudioAssetManager.js';
+import AudioManager from 'public/js/AudioManager.js';
+import BackgroundManager from 'public/js/BackgroundManager.js';
 
 // Custom error handler for debugging
 function handleError(error, lineNumber) {
