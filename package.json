@@ -1,14 +1,10 @@
 {
-  "name": "steve-s-space-adventure-mystery",
+  "name": "steves-space-adventure-mystery",
   "version": "1.0.0",
   "description": "A new project",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
+  "main": "index.html",
+  "scripts": {},
   "dependencies": {
-    "express": "^5.0.1",
-    "express-handlebars": "^8.0.1",
     "phaser": "^3.87.0"
   },
   "engines": {
