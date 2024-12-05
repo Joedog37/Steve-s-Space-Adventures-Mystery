@@ -1,3 +1,4 @@
+//BackgroundManager
 class BackgroundManager {
     constructor(scene) {
         this.scene = scene;
