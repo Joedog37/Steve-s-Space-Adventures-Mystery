@@ -1,5 +1,11 @@
-import AudioManager from './js/AudioManager.js';
-import BackgroundManager from './js/BackgroundManager.js';
+import AudioManager from '../AudioManager.js';
+import BackgroundManager from '../BackgroundManager.js';
+import createStartButton from '../buttons/StartButton.js';
+import createLoadButton from '../buttons/LoadButton.js';
+import createSettingsButton from '../buttons/SettingsButton.js';
+import createCreditsButton from '../buttons/CreditsButton.js';
+import createFeedbackButton from '../buttons/FeedbackButton.js';
+import createExitButton from '../buttons/ExitButton.js';
 
 class MainMenuScene extends Phaser.Scene {
     constructor() {
@@ -91,8 +97,28 @@ class MainMenuScene extends Phaser.Scene {
                 fill: true
             }
         }).setOrigin(0.5);
+
+        // Add buttons
+        createStartButton(this, centerX, versionText.y + versionText.height + 50);
+        createLoadButton(this, centerX, versionText.y + versionText.height + 100);
+        createSettingsButton(this, centerX, versionText.y + versionText.height + 150);
+        createCreditsButton(this, centerX, versionText.y + versionText.height + 200);
+        createFeedbackButton(this, centerX, versionText.y + versionText.height + 250);
+        createExitButton(this, centerX, versionText.y + versionText.height + 300);
+
+        // Add Disclaimer Text
+        const disclaimerBg = this.add.rectangle(centerX, this.cameras.main.height - 25, this.cameras.main.width, 50, 0x000000, 0.5);
+        const disclaimer = this.add.text(centerX, this.cameras.main.height - 25, "Alpha Version: This game is in early development. Features may be incomplete or change.", {
+            fontSize: '20px',
+            fill: '#ffffff',
+            align: 'center',
+            wordWrap: {
+                width: this.cameras.main.width - 40
+            }
+        }).setOrigin(0.5);
     }
 }
 
 export default MainMenuScene;
+
 

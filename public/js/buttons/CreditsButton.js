@@ -1,5 +1,5 @@
-export default function createStartButton(scene, centerX, centerY) {
-    const startButton = scene.add.text(centerX, centerY, 'Start Game', {
+export default function createCreditsButton(scene, centerX, centerY) {
+    const creditsButton = scene.add.text(centerX, centerY, 'Credits', {
         fontSize: '36px',
         fill: '#ffffff',
         stroke: '#000000',
@@ -14,13 +14,13 @@ export default function createStartButton(scene, centerX, centerY) {
         }
     }).setOrigin(0.5)
     .setInteractive({ useHandCursor: true })
-    .on('pointerover', () => startButton.setStyle({ fill: '#ff0' }))
-    .on('pointerout', () => startButton.setStyle({ fill: '#ffffff' }))
+    .on('pointerover', () => creditsButton.setStyle({ fill: '#ff0' }))
+    .on('pointerout', () => creditsButton.setStyle({ fill: '#ffffff' }))
     .on('pointerdown', () => {
-        scene.audioManager.stopAllMusic(); // Stop music before starting the game
+        scene.audioManager.stopAllMusic(); // Stop music before transitioning to credits
         scene.cameras.main.fade(1500, 0, 0, 0);
         scene.time.delayedCall(1500, () => {
-            scene.scene.start('IntroScene');
+            scene.scene.start('CreditsScene');
         });
     });
 }

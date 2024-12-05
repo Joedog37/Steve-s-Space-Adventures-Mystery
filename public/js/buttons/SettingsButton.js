@@ -1,5 +1,5 @@
-export default function createLoadButton(scene, centerX, centerY) {
-    const loadButton = scene.add.text(centerX, centerY, 'Load Game', {
+export default function createSettingsButton(scene, centerX, centerY) {
+    const settingsButton = scene.add.text(centerX, centerY, 'Settings', {
         fontSize: '36px',
         fill: '#ffffff',
         stroke: '#000000',
@@ -14,9 +14,9 @@ export default function createLoadButton(scene, centerX, centerY) {
         }
     }).setOrigin(0.5)
     .setInteractive({ useHandCursor: true })
-    .on('pointerover', () => loadButton.setStyle({ fill: '#ff0' }))
-    .on('pointerout', () => loadButton.setStyle({ fill: '#ffffff' }))
+    .on('pointerover', () => settingsButton.setStyle({ fill: '#ff0' }))
+    .on('pointerout', () => settingsButton.setStyle({ fill: '#ffffff' }))
     .on('pointerdown', () => {
-        scene.scene.start('SaveLoadScene');
+        scene.scene.start('SettingsScene');
     });
 }
