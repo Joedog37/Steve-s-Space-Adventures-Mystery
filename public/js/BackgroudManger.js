@@ -25,4 +25,3 @@ class BackgroundManager {
 }
 
 export default BackgroundManager;
-
