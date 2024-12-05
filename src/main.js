@@ -1,3 +1,5 @@
+import AudioAssetManager from './AudioAssetManager.js';
+
 //////////////////////////////////////////////////////////////
 // EASY-MODIFY SECTION
 // UPDATE VALUES IN THIS SECTION TO EASILY MODIFY GAME
@@ -74,3 +76,9 @@ function addAudioAsset(sceneName, assetKey, url) {
         }
     }
 }
+
+// Example usage of AudioAssetManager
+const audioManager = new AudioAssetManager();
+audioManager.addAudioAsset('BootScene', 'backgroundMusic', 'path/to/music.mp3');
+
+console.log(audioManager.getAudioAsset('BootScene', 'backgroundMusic'));
