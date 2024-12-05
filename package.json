@@ -8,15 +8,10 @@
   },
   "dependencies": {
     "express": "^5.0.1",
-    "express-handlebars": "^8.0.1"
+    "express-handlebars": "^8.0.1",
+    "phaser": "^3.87.0"
   },
   "engines": {
-    "node": ">=20.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Joedog37/steves-space-adventure-mystery.git"
-  },
-  "author": "joesph-rice",
-  "license": "MIT"
+    "node": ">=14.0.0"
+  }
 }

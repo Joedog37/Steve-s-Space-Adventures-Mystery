@@ -1,8 +1,10 @@
+import Phaser from 'phaser';
+
 // Initialize the game
 async function initializeGame() {
     try {
         console.log('Initializing game...');
-        await loadScript('https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/rosebud_AI_story_template_desktop_library.js.js?BzI8');
+        await loadScript('https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/rosebud_AI_story_template_desktop_library.js?BzI8');
         console.log('External script loaded successfully');
 
         if (typeof Phaser === 'undefined') {
@@ -10,7 +12,7 @@ async function initializeGame() {
         }
         console.log('Phaser found');
 
-        const scenes = [BootScene, MainMenuScene, IntroScene, ];
+        const scenes = [BootScene, MainMenuScene, IntroScene, StoryScene, CreditsScene, PauseMenuScene, SaveLoadScene, SettingsScene];
         console.log('Scenes to be added:', scenes.map(scene => scene.name));
 
         const config = {
