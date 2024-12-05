@@ -1,4 +1,4 @@
-//BackgroundManager
+// BackgroundManager
 class BackgroundManager {
     constructor(scene) {
         this.scene = scene;
@@ -10,6 +10,7 @@ class BackgroundManager {
 
     create(key, centerX, centerY) {
         const background = this.scene.add.image(centerX, centerY, key).setOrigin(0.5);
+        background.setDisplaySize(this.scene.cameras.main.width, this.scene.cameras.main.height);
         background.setAlpha(0);
 
         this.scene.tweens.add({
