@@ -1,5 +1,5 @@
 {
-  "name": "steves-space-adventure-mystery",
+  "name": "steve-s-space-adventure-mystery",
   "version": "1.0.0",
   "description": "A new project",
   "main": "server.js",
@@ -12,6 +12,6 @@
     "phaser": "^3.87.0"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "22.12.0"
   }
 }
