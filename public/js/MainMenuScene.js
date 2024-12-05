@@ -1,9 +1,11 @@
-import AudioManager from './AudioManager.js';
+import AudioManager from './js/AudioManager.js';
+import BackgroundManager from './js/BackgroundManager.js';
 
 class MainMenuScene extends Phaser.Scene {
     constructor() {
         super('MainMenuScene');
         this.audioManager = null;
+        this.backgroundManager = null;
     }
 
     preload() {
@@ -11,6 +13,8 @@ class MainMenuScene extends Phaser.Scene {
         this.audioManager = new AudioManager(this);
         this.audioManager.loadAudio();
         this.load.audio('mainMenuBackgroundMusic', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/space%20explorers.mp3?v=1733356315497'); // Load main menu background music
+        this.backgroundManager = new BackgroundManager(this);
+        this.backgroundManager.preload('backgroundMain', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/pexels-krisof-1252890.jpg?v=1733356421871');
         console.log('MainMenuScene: preload completed');
     }
 
@@ -32,10 +36,13 @@ class MainMenuScene extends Phaser.Scene {
         }
 
         // Add background image without reloading
-        const background = this.add.image(centerX, centerY, 'backgroundMain').setOrigin(0.5);
-        this.audioManager.playBackgroundMusic('mainMenuBackgroundMusic', 2000); // 2-second fade-in
+        this.backgroundManager.create('backgroundMain', centerX, centerY).then((background) => {
+            this.audioManager.playBackgroundMusic('mainMenuBackgroundMusic', 2000); // 2-second fade-in
+            this.setupMainMenu(centerX, centerY);
+        }).catch((error) => {
+            console.error(error.message);
+        });
 
-        this.setupMainMenu(centerX, centerY);
         console.log('MainMenuScene: create completed');
     }
 
@@ -88,3 +95,4 @@ class MainMenuScene extends Phaser.Scene {
 }
 
 export default MainMenuScene;
+

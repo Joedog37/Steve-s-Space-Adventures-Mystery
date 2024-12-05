@@ -1,5 +1,5 @@
-import AudioAssetManager from './AudioAssetManager.js';
-import AudioManager from './AudioManager.js';
+import AudioAssetManager from './js/AudioAssetManager.js';
+import AudioManager from './js/AudioManager.js';
 import BackgroundManager from './BackgroundManager.js';
 
 // Custom error handler for debugging
