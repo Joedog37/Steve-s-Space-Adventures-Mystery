@@ -1,6 +1,6 @@
 /// Main game logic
-import BootScene from './js/BootScene.js';
-import MainMenuScene from './js/MainMenuScene.js';
+import BootScene from './BootScene.js';
+import MainMenuScene from './MainMenuScene.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Game initialized');

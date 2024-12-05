@@ -1,17 +1,21 @@
 // BootScene
-import BackgroundManager from './js/BackgroundManager.js';
-import AudioManager from './js/AudioManager.js';
+import BackgroundManager from './BackgroundManager.js';
+import AudioAssetManager from './AudioAssetManager.js';
+import AudioManager from './AudioManager.js';
 
 class BootScene extends Phaser.Scene {
   constructor() {
     super('BootScene');
     this.backgroundManager = null;
+    this.audioAssetManager = null;
     this.audioManager = null;
   }
 
   preload() {
     this.backgroundManager = new BackgroundManager(this);
     this.backgroundManager.preload('bootupBackground', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/pexels-krisof-1252890.jpg?v=1733356421871');
+    this.audioAssetManager = new AudioAssetManager(this);
+    this.audioAssetManager.preload('bootupMusic', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/space%20explorers.mp3?v=1733356315497');
     this.audioManager = new AudioManager(this);
     this.audioManager.preload();
 
@@ -44,7 +48,8 @@ class BootScene extends Phaser.Scene {
       delay: 1000 // Delay the title fade-in by 1 second
     });
 
-    this.audioManager.playBackgroundMusic('bootupMusic');
+    this.audioAssetManager.stopAll();
+    this.audioAssetManager.play('bootupMusic', { loop: true });
 
     // Remove loading text after assets are loaded
     this.loadingText.destroy();
