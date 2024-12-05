@@ -1,4 +1,4 @@
-/// Main game logic
+// Main game logic
 import BootScene from './BootScene.js';
 import MainMenuScene from './MainMenuScene.js';
 
@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const game = new Phaser.Game(config);
 });
+
 
 
 

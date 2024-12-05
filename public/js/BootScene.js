@@ -34,14 +34,22 @@ class BootScene extends Phaser.Scene {
 
     this.backgroundManager.create('bootupBackground', centerX, centerY);
 
-    const title = this.add.text(centerX, centerY, "Steve's Space Adventure Mystery", {
+    // Add title text
+    const title = this.add.text(centerX, centerY - 50, "Welcome to Steve's Space Adventure Mystery", {
       fontSize: '64px',
       fill: '#ffffff'
     }).setOrigin(0.5);
     title.setAlpha(0);
 
+    // Add subtitle text
+    const subtitle = this.add.text(centerX, centerY + 50, "Embark on an epic journey through space!", {
+      fontSize: '32px',
+      fill: '#ffffff'
+    }).setOrigin(0.5);
+    subtitle.setAlpha(0);
+
     this.tweens.add({
-      targets: title,
+      targets: [title, subtitle],
       alpha: 1,
       duration: 2000,
       ease: 'Power2',
