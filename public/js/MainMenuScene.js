@@ -1,5 +1,5 @@
-import BackgroundManager from '../js/BackgroundManager.js';
-import AudioManager from '../js/AudioManager.js';
+import BackgroundManager from './js/BackgroundManager.js';
+import AudioManager from './js/AudioManager.js';
 
 class MainMenuScene extends Phaser.Scene {
     constructor() {

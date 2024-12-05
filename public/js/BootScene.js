@@ -1,6 +1,6 @@
 // BootScene
-import BackgroundManager from '../BackgroundManager.js';
-import AudioManager from '../AudioManager.js';
+import BackgroundManager from './js/BackgroundManager.js';
+import AudioManager from './js/AudioManager.js';
 
 class BootScene extends Phaser.Scene {
   constructor() {

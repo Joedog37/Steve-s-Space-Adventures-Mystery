@@ -1,4 +1,4 @@
-//AudioManger
+// AudioManager
 class AudioManager {
     constructor(scene) {
         this.scene = scene;
