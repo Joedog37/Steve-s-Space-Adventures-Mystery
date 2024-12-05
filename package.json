@@ -11,6 +11,12 @@
     "phaser": "^3.87.0"
   },
   "engines": {
-    "node": "18.x"
-  }
+    "node": "18.x",
+    "npm": "8.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Joedog37/Steve-s-Space-Adventure-Mystery"
+  },
+  "license": "MIT"
 }
