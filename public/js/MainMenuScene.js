@@ -1,7 +1,5 @@
-//MainMenuScene
 import BackgroundManager from './js/BackgroundManager.js';
 import AudioManager from './js/AudioManager.js';
-import GameScene from './js/GameScene.js';
 
 class MainMenuScene extends Phaser.Scene {
     constructor() {
@@ -34,25 +32,7 @@ class MainMenuScene extends Phaser.Scene {
         }).setOrigin(0.5).setInteractive();
 
         startButton.on('pointerdown', () => {
-            this.scene.start('GameScene');
-        });
-
-        const settingsButton = this.add.text(centerX, centerY + 100, 'Settings', {
-            fontSize: '32px',
-            fill: '#ffffff'
-        }).setOrigin(0.5).setInteractive();
-
-        settingsButton.on('pointerdown', () => {
-            // Add logic to transition to settings scene
-        });
-
-        const creditsButton = this.add.text(centerX, centerY + 200, 'Credits', {
-            fontSize: '32px',
-            fill: '#ffffff'
-        }).setOrigin(0.5).setInteractive();
-
-        creditsButton.on('pointerdown', () => {
-            // Add logic to transition to credits scene
+            console.log('Start Game button clicked');
         });
 
         this.audioManager.playBackgroundMusic('bootupMusic');
@@ -60,3 +40,5 @@ class MainMenuScene extends Phaser.Scene {
 }
 
 export default MainMenuScene;
+
+

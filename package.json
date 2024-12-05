@@ -3,9 +3,7 @@
   "version": "0.1.0-alpha",
   "description": "A new project",
   "main": "index.html",
-  "scripts": {
-    "start": "node server.js"
-  },
+  "scripts": {},
   "dependencies": {
     "phaser": "^3.87.0"
   },
