@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Steve's Space Adventure Mystery
 
 Welcome to Steve's Space Adventure Mystery! This project is an exciting space-themed game where players embark on thrilling adventures and solve mysteries in the vast expanse of space.
@@ -42,3 +43,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 
 Stay tuned for updates and new features coming soon!
 
+=======
+i'm updating this with glitch
+>>>>>>> 1cf56552e5c6250a371643e750af06259561f8e7
