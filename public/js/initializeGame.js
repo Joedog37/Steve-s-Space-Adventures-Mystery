@@ -12,7 +12,7 @@ async function initializeGame() {
         }
         console.log('Phaser found');
 
-        const scenes = [BootScene, MainMenuScene, IntroScene, StoryScene, CreditsScene, PauseMenuScene, SaveLoadScene, SettingsScene];
+        const scenes = [BootScene, MainMenuScene,];
         console.log('Scenes to be added:', scenes.map(scene => scene.name));
 
         const config = {
@@ -63,3 +63,4 @@ addAudioAsset('MainMenuScene', 'backgroundMusic', 'https://cdn.glitch.global/c67
 addAudioAsset('IntroScene', 'introSpeech', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/Intro%20speech%20ai%20Andrew%20English.mp3?v=1733355860018');
 
 initializeGame();
+

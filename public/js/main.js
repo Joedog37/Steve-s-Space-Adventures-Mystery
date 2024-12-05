@@ -1,6 +1,6 @@
 import AudioAssetManager from './js/AudioAssetManager.js';
 import AudioManager from './js/AudioManager.js';
-import BackgroundManager from './BackgroundManager.js';
+import BackgroundManager from './js/BackgroundManager.js';
 
 // Custom error handler for debugging
 function handleError(error, lineNumber) {
@@ -64,4 +64,5 @@ const backgroundManager = new BackgroundManager();
 backgroundManager.preload('backgroundKey', 'path/to/background.png');
 
 console.log(audioManager.getAudioAsset('BootScene', 'backgroundMusic'));
+
 
