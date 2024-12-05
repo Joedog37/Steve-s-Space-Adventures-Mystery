@@ -1,5 +1,7 @@
 // Main game logic
 import BootScene from './js/BootScene.js';
+import MainMenuScene from './js/MainMenuScene.js';
+import GameScene from './js/GameScene.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Game initialized');
@@ -9,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         width: 1920,
         height: 1080,
         parent: 'gameContainer',
-        scene: [BootScene],
+        scene: [BootScene, MainMenuScene, GameScene],
         backgroundColor: '#000000'
     };
 
