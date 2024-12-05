@@ -20,6 +20,20 @@ class BootScene extends Phaser.Scene {
             duration: 2000,
             ease: 'Power2'
         });
+
+        const title = this.add.text(centerX, centerY, "Steve's Space Adventure Mystery", {
+            fontSize: '64px',
+            fill: '#ffffff'
+        }).setOrigin(0.5);
+        title.setAlpha(0);
+
+        this.tweens.add({
+            targets: title,
+            alpha: 1,
+            duration: 2000,
+            ease: 'Power2',
+            delay: 1000 // Delay the title fade-in by 1 second
+        });
     }
 }
 

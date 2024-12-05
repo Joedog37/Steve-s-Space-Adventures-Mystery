@@ -1,35 +1,17 @@
 // Main game logic
-import
+import BootScene from './js/BootScene.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Game initialized');
-  // Add your game initialization code here
-  const gameContainer = document.getElementById('gameContainer');
-  gameContainer.innerHTML = '<canvas id="gameCanvas"></canvas>';
+    console.log('Game initialized');
 
-  // Initialize Phaser game
-  const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    parent: 'gameContainer',
-    scene: {
-      preload: preload,
-      create: create,
-      update: update
-    }
-  };
+    const config = {
+        type: Phaser.AUTO,
+        width: 1920,
+        height: 1080,
+        parent: 'gameContainer',
+        scene: [BootScene],
+        backgroundColor: '#000000'
+    };
 
-  const game = new Phaser.Game(config);
-
-  function preload() {
-    this.load.image('background', '/assets/background.jpg');
-  }
-
-  function create() {
-    this.add.image(400, 300, 'background');
-  }
-
-  function update() {
-    // Game update logic
-  }
+    const game = new Phaser.Game(config);
 });
