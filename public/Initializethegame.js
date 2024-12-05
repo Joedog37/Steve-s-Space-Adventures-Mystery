@@ -62,18 +62,46 @@ function addAudioAsset(sceneName, assetKey, url) {
 
     globalAudioAssetManager.addAudioAsset(sceneName, assetKey, url);
     console.log(`Added audio asset '${assetKey}' to scene '${sceneName}'`);
+}
 
-    const creditInfo = prompt(`Please enter credit information for the audio asset '${assetKey}' (or press Cancel if not applicable):`);
+// AudioAssetManager class
+class AudioAssetManager {
+    constructor() {
+        this.audioAssets = {};
+    }
 
-    if (creditInfo) {
-        const creditsScene = window.game.scene.getScene('CreditsScene');
-        if (creditsScene) {
-            creditsScene.addCreditInfo(assetKey, creditInfo);
-        } else {
-            console.warn('CreditsScene not found. Credit information will not be added.');
+    addAudioAsset(sceneName, assetKey, url) {
+        if (!this.audioAssets[sceneName]) {
+            this.audioAssets[sceneName] = {};
+        }
+        this.audioAssets[sceneName][assetKey] = url;
+    }
+
+    getAudioAsset(sceneName, assetKey) {
+        return this.audioAssets[sceneName] && this.audioAssets[sceneName][assetKey];
+    }
+
+    getAllAudioAssetsForScene(sceneName) {
+        return this.audioAssets[sceneName] || {};
+    }
+
+    removeAudioAsset(sceneName, assetKey) {
+        if (this.audioAssets[sceneName] && this.audioAssets[sceneName][assetKey]) {
+            delete this.audioAssets[sceneName][assetKey];
         }
     }
+
+    listScenes() {
+        return Object.keys(this.audioAssets);
+    }
+
+    listAudioAssetsForScene(sceneName) {
+        return Object.keys(this.audioAssets[sceneName] || {});
+    }
 }
+
+// Global instance of AudioAssetManager
+const globalAudioAssetManager = new AudioAssetManager();
 
 // Initialize the game
 async function initializeGame() {
@@ -157,4 +185,5 @@ addAudioAsset('BootScene', 'bootupBackground', 'https://cdn.glitch.global/c677e8
 addAudioAsset('CreditsScene', 'creditsBackground', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/AI%20art%20for%20credits%20scene%20background.png?v=1733356432906');
 
 initializeGame();
+
 
