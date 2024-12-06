@@ -23,3 +23,22 @@ p {
   justify-content: center;
   align-items: center;
 }
+
+/* Glimmer effect */
+@keyframes glimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.glimmer-text {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: glimmer 2s infinite;
+}

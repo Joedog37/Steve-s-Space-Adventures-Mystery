@@ -61,6 +61,7 @@ class BootScene extends Phaser.Scene {
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
 
+        // Add title text
         const title = this.add.text(centerX, centerY, "Steve's Space Adventure Mystery", {
             fontSize: '64px',
             fontStyle: 'bold',
@@ -78,6 +79,16 @@ class BootScene extends Phaser.Scene {
             fontFamily: 'Orbitron' // Sci-fi futuristic font
         }).setOrigin(0.5).setAlpha(0);
 
+        // Add glimmer effect
+        title.setStyle({
+            background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%)',
+            backgroundSize: '200% 100%',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: '#00ff00', // Ensure the text color is green
+            animation: 'glimmer 2s infinite'
+        });
+
         this.tweens.add({
             targets: title,
             alpha: 1,
@@ -85,18 +96,8 @@ class BootScene extends Phaser.Scene {
             ease: 'Power2',
             onComplete: () => {
                 console.log('Title fade-in completed');
-                this.add3DWavyAnimation(title);
                 this.showAudioPrompt();
             }
-        });
-    }
-
-    add3DWavyAnimation(target) {
-        this.tweens.add({
-            targets: target,
-            scaleX: { value: 1.1, duration: 1000, ease: 'Sine.easeInOut', yoyo: true, repeat: -1 },
-            scaleY: { value: 1.1, duration: 1000, ease: 'Sine.easeInOut', yoyo: true, repeat: -1 },
-            angle: { value: 10, duration: 1000, ease: 'Sine.easeInOut', yoyo: true, repeat: -1 }
         });
     }
 
@@ -180,6 +181,12 @@ class BootScene extends Phaser.Scene {
 
 // Export the BootScene class
 export default BootScene;
+
+
+
+
+
+
 
 
 
