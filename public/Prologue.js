@@ -1,26 +1,29 @@
 import AudioManager from './AudioManager.js';
+import BackgroundManager from './BackgroundManager.js';
 
-// --------------------------------- // Prologue: The Cosmic Awakening // --------------------------------- //
-class IntroScene extends Phaser.Scene {
+class Prologue extends Phaser.Scene {
     constructor() {
-        super('IntroScene');
-        console.log('IntroScene: Constructor called');
+        super('Prologue');
+        console.log('Prologue: Constructor called');
         this.audioManager = null;
+        this.backgroundManager = null;
         this.introSpeechKey = 'introSpeech'; // Key for the intro speech audio
         this.backgroundMusicKey = 'introBackgroundMusic'; // Key for the background music audio
     }
 
     preload() {
-        console.log('IntroScene: preload started');
+        console.log('Prologue: preload started');
         this.audioManager = new AudioManager(this);
+        this.backgroundManager = new BackgroundManager(this);
         this.audioManager.addAudioAsset(this.introSpeechKey, 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/Intro%20speech%20ai%20Andrew%20English.mp3?v=1733355860018');
         this.audioManager.addAudioAsset(this.backgroundMusicKey, 'https://play.rosebud.ai/assets/space explorers.mp3?7jfX');
+        this.backgroundManager.preload('backgroundMain', 'path/to/background/image.png');
         this.audioManager.loadAudio();
-        console.log('IntroScene: preload completed');
+        console.log('Prologue: preload completed');
     }
 
     create() {
-        console.log('IntroScene: create started');
+        console.log('Prologue: create started');
         this.children.removeAll(true);
 
         const centerX = this.cameras.main.width / 2;
@@ -30,7 +33,11 @@ class IntroScene extends Phaser.Scene {
         this.cameras.main.fadeIn(1500);
 
         // Add background image
-        const background = this.add.image(centerX, centerY, 'backgroundMain').setOrigin(0.5);
+        this.backgroundManager.create('backgroundMain', centerX, centerY).then((background) => {
+            console.log('Background image added');
+        }).catch((error) => {
+            console.error(error.message);
+        });
 
         if (this.cache.audio.exists(this.introSpeechKey)) {
             console.log(`Audio ${this.introSpeechKey} found in cache`);
@@ -39,7 +46,7 @@ class IntroScene extends Phaser.Scene {
         }
 
         this.setupIntroScene();
-        console.log('IntroScene: create completed');
+        console.log('Prologue: create completed');
 
         // Add listener for ESC key to pause and launch PauseMenuScene
         this.input.keyboard.on('keydown-ESC', () => {
@@ -109,7 +116,7 @@ class IntroScene extends Phaser.Scene {
 
         this.showSkipButton();
 
-        console.log('IntroScene: setup completed');
+        console.log('Prologue: setup completed');
     }
 
     showSkipButton() {
@@ -178,4 +185,10 @@ class IntroScene extends Phaser.Scene {
         } else {
             this.cameras.main.fade(1500, 0, 0, 0);
             this.time.delayedCall(1500, () => {
-                this.scene.start('
+                this.scene.start('StoryScene');
+            });
+        }
+    }
+}
+
+export default Prologue;

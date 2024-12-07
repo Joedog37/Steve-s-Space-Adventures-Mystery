@@ -23,7 +23,7 @@ export function setupButtons(scene, centerX, startY) {
         scene.audioManager.stopAllMusic(); // Stop music before starting the game
         scene.cameras.main.fade(1500, 0, 0, 0);
         scene.time.delayedCall(1500, () => {
-            scene.scene.start('IntroScene');
+            scene.scene.start('Prologue');
         });
     };
 
@@ -205,3 +205,5 @@ export function setupButtons(scene, centerX, startY) {
         });
     };
 }
+
+

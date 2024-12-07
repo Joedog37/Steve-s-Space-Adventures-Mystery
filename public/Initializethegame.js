@@ -2,6 +2,7 @@ import AudioManager from './AudioManager.js';
 import BackgroundManager from './BackgroundManager.js';
 import BootScene from './BootScene.js';
 import MainMenuScene from './MainMenuScene.js';
+import Prologue from './Prologue.js';
 
 // Define STORY_NAME and other constants
 const STORY_NAME = "Steve's Space Adventure Mystery";
@@ -98,17 +99,17 @@ async function initializeGame() {
         }
         console.log('Phaser found');
 
-        const scenes = [BootScene, MainMenuScene];
+        const scenes = [BootScene, MainMenuScene, Prologue];
         console.log('Scenes to be added:', scenes.map(scene => scene.name));
 
         const config = {
             type: Phaser.AUTO,
             parent: 'renderDiv',
             scale: {
-                mode: Phaser.Scale.FIT,
+                mode: Phaser.Scale.RESIZE,
                 autoCenter: Phaser.Scale.CENTER_BOTH,
-                width: window.innerWidth,
-                height: window.innerHeight
+                width: 1920,
+                height: 1080
             },
             scene: scenes,
             backgroundColor: '#000000',
@@ -168,6 +169,8 @@ addAudioAsset('BootScene', 'bootupBackground', 'https://cdn.glitch.global/c677e8
 addAudioAsset('CreditsScene', 'creditsBackground', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/AI%20art%20for%20credits%20scene%20background.png?v=1733356432906');
 
 initializeGame();
+
+
 
 
 
