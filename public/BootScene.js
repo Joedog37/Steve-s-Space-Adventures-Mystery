@@ -4,7 +4,7 @@ import AudioManager from './AudioManager.js';
 // --------------------------------- // BootScene // --------------------------------- //
 class BootScene extends Phaser.Scene {
     constructor() {
-        super('BootScene');
+        super({ key: 'BootScene' });
         this.backgroundManager = null;
         this.audioManager = null; // Add audio manager
     }
@@ -14,8 +14,15 @@ class BootScene extends Phaser.Scene {
         this.backgroundManager = new BackgroundManager(this);
         this.audioManager = new AudioManager(this); // Initialize audio manager
 
-        // Load the background image only once in BootScene
-        this.load.image('backgroundMain', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/pexels-krisof-1252890.jpg?v=1733356421871');
+        // Load the background image
+        if (!this.textures.exists('backgroundMain')) {
+            this.load.image('backgroundMain', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/pexels-krisof-1252890.jpg?v=1733356421871');
+        }
+
+        // Load the logo image if not already loaded
+        if (!this.textures.exists('logo')) {
+            this.load.image('logo', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/Thunderhead%20Pictures%20new%20logo_processed.png?v=1733590536426');
+        }
 
         // Load the background music
         this.audioManager.loadAudio();
@@ -30,37 +37,71 @@ class BootScene extends Phaser.Scene {
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
 
-        // Add loading text
-        const loadingText = this.add.text(centerX, centerY, 'Loading...', {
-            fontSize: '32px',
-            fill: '#ffffff'
+        // Add background color
+        this.cameras.main.setBackgroundColor('#000000');
+
+        // Add warning text
+        const warningText = this.add.text(centerX, centerY - 50, 'This game uses auto-save. Do not turn off your device while the save indicator is displayed. Warning: This game contains bright lights and flashing images that may cause discomfort or trigger seizures for people with photosensitive epilepsy.', {
+            fontSize: '24px',
+            fill: '#ffffff',
+            backgroundColor: '#000000',
+            padding: {
+                left: 10,
+                right: 10,
+                top: 5,
+                bottom: 5
+            },
+            align: 'center',
+            wordWrap: {
+                width: this.cameras.main.width - 40
+            }
         }).setOrigin(0.5);
 
-        // Add background image
-        const background = this.add.image(centerX, centerY, 'backgroundMain').setOrigin(0.5);
-        background.setDisplaySize(1920, 1080); // Ensure the image is scaled to 1080p
-        background.setAlpha(0);
-
-        // Fade in background
-        this.tweens.add({
-            targets: background,
-            alpha: 1,
-            duration: 2000,
-            ease: 'Power2',
-            onComplete: () => {
-                console.log('Background fade-in completed');
-                loadingText.destroy();
-                this.showTitle();
-            }
+        this.time.delayedCall(7000, () => {
+            warningText.destroy();
+            this.showLogo(centerX, centerY);
         });
 
         console.log('BootScene: create completed');
     }
 
-    showTitle() {
-        const centerX = this.cameras.main.width / 2;
-        const centerY = this.cameras.main.height / 2;
+    showLogo(centerX, centerY) {
+        // Add logo image
+        const logo = this.add.image(centerX, centerY, 'logo').setOrigin(0.5);
+        logo.setAlpha(0);
 
+        this.tweens.add({
+            targets: logo,
+            alpha: 1,
+            duration: 2000,
+            ease: 'Power2',
+            onComplete: () => {
+                this.time.delayedCall(3000, () => {
+                    logo.destroy();
+                    this.fadeInBackground(centerX, centerY);
+                });
+            }
+        });
+    }
+
+    fadeInBackground(centerX, centerY) {
+        // Add background image
+        const background = this.add.image(centerX, centerY, 'backgroundMain').setOrigin(0.5);
+        background.setDisplaySize(this.cameras.main.width, this.cameras.main.height); // Ensure the image is scaled to fit the screen
+        background.setAlpha(0);
+
+        this.tweens.add({
+            targets: background,
+            alpha: 1,
+            duration: 3000,
+            ease: 'Power2',
+            onComplete: () => {
+                this.showTitle(centerX, centerY);
+            }
+        });
+    }
+
+    showTitle(centerX, centerY) {
         // Add title text
         const title = this.add.text(centerX, centerY, "Steve's Space Adventure Mystery", {
             fontSize: '64px',
@@ -92,20 +133,17 @@ class BootScene extends Phaser.Scene {
         this.tweens.add({
             targets: title,
             alpha: 1,
-            duration: 2000,
+            duration: 3000,
             ease: 'Power2',
             onComplete: () => {
                 console.log('Title fade-in completed');
-                this.showAudioPrompt();
+                this.showAudioPrompt(centerX, centerY);
             }
         });
     }
 
-    showAudioPrompt() {
-        const centerX = this.cameras.main.width / 2;
-        const centerY = this.cameras.main.height / 2 + 100; // Adjusted position to be below the title
-
-        const audioPromptText = this.add.text(centerX, centerY, 'Click anywhere to enable audio', {
+    showAudioPrompt(centerX, centerY) {
+        const audioPromptText = this.add.text(centerX, centerY + 100, 'Click anywhere to enable audio', {
             fontSize: '32px',
             fill: '#ffffff',
             stroke: '#000000',
@@ -115,7 +153,7 @@ class BootScene extends Phaser.Scene {
         this.tweens.add({
             targets: audioPromptText,
             alpha: 1,
-            duration: 1000,
+            duration: 2000,
             ease: 'Power2',
             onComplete: () => {
                 console.log('Audio prompt fade-in completed');
@@ -156,7 +194,7 @@ class BootScene extends Phaser.Scene {
         this.tweens.add({
             targets: continueButton,
             alpha: 1,
-            duration: 1000,
+            duration: 2000,
             ease: 'Power2',
             onComplete: () => {
                 console.log('Continue button fade-in completed');
@@ -181,6 +219,11 @@ class BootScene extends Phaser.Scene {
 
 // Export the BootScene class
 export default BootScene;
+
+
+
+
+
 
 
 

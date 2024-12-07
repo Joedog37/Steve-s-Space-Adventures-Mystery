@@ -27,32 +27,32 @@ export function setupButtons(scene, centerX, startY) {
         });
     };
 
-    // Add Load Game Button
-    const loadButton = scene.add.text(centerX, startButton.y + startButton.height + 20, 'Load Game', {
-        fontSize: '36px',
-        fill: '#ffffff',
-        stroke: '#000000',
-        strokeThickness: 6,
-        shadow: {
-            offsetX: 2,
-            offsetY: 2,
-            color: '#000000',
-            blur: 3,
-            stroke: true,
-            fill: true
-        }
-    }).setOrigin(0.5)
-    .setInteractive({ useHandCursor: true })
-    .on('pointerover', () => loadButton.setStyle({ fill: '#ff0' }))
-    .on('pointerout', () => loadButton.setStyle({ fill: '#ffffff' }))
-    .on('pointerdown', () => scene.loadGame());
+    // Remove Load Game Button and its functionality
+    // const loadButton = scene.add.text(centerX, startButton.y + startButton.height + 20, 'Load Game', {
+    //     fontSize: '36px',
+    //     fill: '#ffffff',
+    //     stroke: '#000000',
+    //     strokeThickness: 6,
+    //     shadow: {
+    //         offsetX: 2,
+    //         offsetY: 2,
+    //         color: '#000000',
+    //         blur: 3,
+    //         stroke: true,
+    //         fill: true
+    //     }
+    // }).setOrigin(0.5)
+    // .setInteractive({ useHandCursor: true })
+    // .on('pointerover', () => loadButton.setStyle({ fill: '#ff0' }))
+    // .on('pointerout', () => loadButton.setStyle({ fill: '#ffffff' }))
+    // .on('pointerdown', () => scene.loadGame());
 
-    scene.loadGame = function() {
-        scene.scene.start('SaveLoadScene');
-    };
+    // scene.loadGame = function() {
+    //     scene.scene.start('SaveLoadScene');
+    // };
 
     // Add Settings Button
-    const settingsButton = scene.add.text(centerX, loadButton.y + loadButton.height + 20, 'Settings', {
+    const settingsButton = scene.add.text(centerX, startButton.y + startButton.height + 20, 'Settings', {
         fontSize: '36px',
         fill: '#ffffff',
         stroke: '#000000',
@@ -205,5 +205,6 @@ export function setupButtons(scene, centerX, startY) {
         });
     };
 }
+
 
 

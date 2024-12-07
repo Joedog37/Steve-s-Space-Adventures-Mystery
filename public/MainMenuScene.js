@@ -1,6 +1,5 @@
 import BackgroundManager from './BackgroundManager.js';
 import AudioManager from './AudioManager.js';
-import { setupButtons } from './setupButtons.js';
 
 // --------------------------------- // MainMenuScene // --------------------------------- //
 class MainMenuScene extends Phaser.Scene {
@@ -13,7 +12,8 @@ class MainMenuScene extends Phaser.Scene {
         console.log('MainMenuScene: preload started');
         this.audioManager = new AudioManager(this);
         this.audioManager.loadAudio();
-        this.load.audio('mainMenuBackgroundMusic', 'https://play.rosebud.ai/assets/space explorers.mp3?7jfX'); // Load main menu background music
+        this.load.audio('mainMenuBackgroundMusic', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/space%20explorers.mp3?v=1733356315497'); // Load main menu background music
+        this.load.image('backgroundMain', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/pexels-krisof-1252890.jpg?v=1733356421871'); // Load high-quality background image
         console.log('MainMenuScene: preload completed');
     }
 
@@ -36,6 +36,7 @@ class MainMenuScene extends Phaser.Scene {
 
         // Add background image without reloading
         const background = this.add.image(centerX, centerY, 'backgroundMain').setOrigin(0.5);
+        background.setDisplaySize(this.cameras.main.width, this.cameras.main.height); // Ensure the image is scaled to fit the screen
         this.audioManager.playBackgroundMusic('mainMenuBackgroundMusic', 2000); // 2-second fade-in
 
         this.setupMainMenu(centerX, centerY);
@@ -100,9 +101,42 @@ class MainMenuScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Setup buttons
-        setupButtons(this, centerX, versionText.y + versionText.height + 50);
+        this.setupButtons(centerX, versionText.y + versionText.height + 50);
+    }
+
+    setupButtons(centerX, startY) {
+        const buttonData = [
+            { text: 'Start Game', scene: 'Prologue' },
+            { text: 'Credits', scene: 'CreditsScene' }
+        ];
+
+        buttonData.forEach((button, index) => {
+            const buttonY = startY + index * 60;
+            const buttonText = this.add.text(centerX, buttonY, button.text, {
+                fontSize: '32px',
+                fill: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 4
+            }).setOrigin(0.5).setInteractive();
+
+            buttonText.on('pointerdown', () => {
+                console.log(`${button.text} button clicked`);
+                this.transitionToScene(button.scene);
+            });
+        });
+    }
+
+    transitionToScene(sceneKey) {
+        this.audioManager.fadeOutAll(1000); // Fade out music before transitioning
+        this.cameras.main.fade(1500, 0, 0, 0);
+        this.time.delayedCall(1500, () => {
+            console.log(`Transitioning to ${sceneKey}`);
+            this.scene.start(sceneKey);
+        });
     }
 }
 
 // Export the MainMenuScene class
 export default MainMenuScene;
+
+

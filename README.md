@@ -42,11 +42,6 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 
 ## Next Steps
 
-### Automation
-1. **Automate Version Number and Disclaimer Update:**
-   - Ensure the version number in the game matches the version number in `package.json`.
-   - Automatically update the disclaimer text based on the version type (alpha, beta, release).
-
 ### Full Screen Feature
 2. **Add Full Screen Option:**
    - Implement a setting in the game to automatically switch to full screen when the game loads.

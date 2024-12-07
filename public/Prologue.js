@@ -1,30 +1,34 @@
-import AudioManager from './AudioManager.js';
 import BackgroundManager from './BackgroundManager.js';
+import AudioManager from './AudioManager.js';
 
+// --------------------------------- // Prologue // --------------------------------- //
 class Prologue extends Phaser.Scene {
     constructor() {
-        super('Prologue');
-        console.log('Prologue: Constructor called');
-        this.audioManager = null;
+        super({ key: 'Prologue' });
         this.backgroundManager = null;
-        this.introSpeechKey = 'introSpeech'; // Key for the intro speech audio
-        this.backgroundMusicKey = 'introBackgroundMusic'; // Key for the background music audio
+        this.audioManager = null; // Add audio manager
     }
 
     preload() {
         console.log('Prologue: preload started');
-        this.audioManager = new AudioManager(this);
         this.backgroundManager = new BackgroundManager(this);
-        this.audioManager.addAudioAsset(this.introSpeechKey, 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/Intro%20speech%20ai%20Andrew%20English.mp3?v=1733355860018');
-        this.audioManager.addAudioAsset(this.backgroundMusicKey, 'https://play.rosebud.ai/assets/space explorers.mp3?7jfX');
-        this.backgroundManager.preload('backgroundMain', 'path/to/background/image.png');
+        this.audioManager = new AudioManager(this); // Initialize audio manager
+
+        // Load the background image
+        if (!this.textures.exists('backgroundPrologue')) {
+            this.load.image('backgroundPrologue', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/prologue_background.jpg?v=1733356421871');
+        }
+
+        // Load the background music
         this.audioManager.loadAudio();
+        this.load.audio('prologueBackgroundMusic', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/prologue_music.mp3?v=1733356315497');
+
         console.log('Prologue: preload completed');
     }
 
     create() {
         console.log('Prologue: create started');
-        this.children.removeAll(true);
+        this.children.removeAll();
 
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
@@ -32,163 +36,120 @@ class Prologue extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#000000');
         this.cameras.main.fadeIn(1500);
 
-        // Add background image
-        this.backgroundManager.create('backgroundMain', centerX, centerY).then((background) => {
-            console.log('Background image added');
-        }).catch((error) => {
-            console.error(error.message);
-        });
-
-        if (this.cache.audio.exists(this.introSpeechKey)) {
-            console.log(`Audio ${this.introSpeechKey} found in cache`);
+        // Check if the texture is already loaded
+        if (this.textures.exists('backgroundPrologue')) {
+            console.log('Texture backgroundPrologue exists');
         } else {
-            console.error(`Audio ${this.introSpeechKey} not found in cache`);
+            console.error('Texture backgroundPrologue not found');
         }
 
-        this.setupIntroScene();
-        console.log('Prologue: create completed');
+        // Add background image without reloading
+        const background = this.add.image(centerX, centerY, 'backgroundPrologue').setOrigin(0.5);
+        background.setDisplaySize(this.cameras.main.width, this.cameras.main.height); // Ensure the image is scaled to fit the screen
+        this.audioManager.playBackgroundMusic('prologueBackgroundMusic', 2000); // 2-second fade-in
 
-        // Add listener for ESC key to pause and launch PauseMenuScene
-        this.input.keyboard.on('keydown-ESC', () => {
-            this.scene.pause();
-            this.scene.launch('PauseMenuScene');
-        });
+        this.setupPrologue(centerX, centerY);
+        console.log('Prologue: create completed');
     }
 
-    setupIntroScene() {
-        const centerX = this.cameras.main.width / 2;
-        const centerY = this.cameras.main.height / 2;
+    setupPrologue(centerX, centerY) {
+        const title = this.add.text(centerX, centerY - 300, "Prologue", {
+            fontSize: '72px',
+            fontStyle: 'bold',
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 8,
+            shadow: {
+                offsetX: 2,
+                offsetY: 2,
+                color: '#000000',
+                blur: 5,
+                stroke: true,
+                fill: true
+            },
+            wordWrap: false
+        }).setOrigin(0.5);
 
-        const introText = [
-            "Space... an endless void of infinite possibilities.",
-            "A cosmic canvas painted with stars, nebulae, and the unknown.",
-            "In this vast expanse, I find myself adrift, contemplating the mysteries that surround me.",
-            "My name is Steve, and this is where my story begins.",
-            "As I gaze into the abyss, memories of my childhood flood back.",
-            "I remember when I was young, looking up at the night sky,",
-            "dreaming of the day I'd venture beyond the stars.",
-            "Little did I know then of the incredible journey that awaited me,",
-            "or the profound mysteries I'd encounter along the way.",
-            "As I float here, suspended in the cosmic dance,",
-            "I can't help but wonder what secrets the universe holds,",
-            "and how my story will unfold among the stars.",
-            "Join me as we explore the depths of space,",
-            "and unravel the enigmas of my past, present, and future."
+        if (title.width > this.cameras.main.width - 100) {
+            title.setFontSize(64);
+        }
+
+        this.tweens.add({
+            targets: title,
+            y: title.y + 5,
+            duration: 4000,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
+
+        const versionText = this.add.text(centerX, title.y + title.height + 20, 'Version v0.10.0 (alpha)', {
+            fontSize: '36px',
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 6,
+            shadow: {
+                offsetX: 2,
+                offsetY: 2,
+                color: '#000000',
+                blur: 3,
+                stroke: true,
+                fill: true
+            }
+        }).setOrigin(0.5);
+
+        // Add Disclaimer Text
+        const disclaimerBg = this.add.rectangle(centerX, this.cameras.main.height - 25, this.cameras.main.width, 50, 0x000000, 0.5);
+        const disclaimer = this.add.text(centerX, this.cameras.main.height - 25, "Alpha Version: This game is in early development. Features may be incomplete or change.", {
+            fontSize: '20px',
+            fill: '#ffffff',
+            align: 'center',
+            wordWrap: {
+                width: this.cameras.main.width - 40
+            }
+        }).setOrigin(0.5);
+
+        // Setup buttons
+        this.setupButtons(centerX, versionText.y + versionText.height + 50);
+    }
+
+    setupButtons(centerX, startY) {
+        const buttonData = [
+            { text: 'Continue', scene: 'MainMenuScene' },
+            { text: 'Credits', scene: 'CreditsScene' }
         ];
 
-        const textStyle = {
-            fontFamily: 'Arial',
-            fontSize: '24px',
-            color: '#ffffff',
-            align: 'center',
-            wordWrap: { width: this.cameras.main.width - 100 }
-        };
+        buttonData.forEach((button, index) => {
+            const buttonY = startY + index * 60;
+            const buttonText = this.add.text(centerX, buttonY, button.text, {
+                fontSize: '32px',
+                fill: '#ffffff',
+                stroke: '#000000',
+                strokeThickness: 4
+            }).setOrigin(0.5).setInteractive();
 
-        this.textLines = introText.map((line, index) => {
-            return this.add.text(centerX, centerY + (index * 30) - (introText.length * 15), line, textStyle)
-                .setOrigin(0.5)
-                .setAlpha(0);
-        });
-
-        // Delay playing audio to ensure assets are loaded
-        this.time.delayedCall(500, () => {
-            const introSpeech = this.audioManager.playIntroSpeech(this.introSpeechKey, 2000); // 2-second fade-in
-            this.audioManager.playBackgroundMusic(this.backgroundMusicKey, 2000); // 2-second fade-in
-
-            // Listen for when the intro speech completes
-            if (introSpeech) {
-                introSpeech.once('complete', () => {
-                    console.log('Intro speech completed');
-                    this.transitionToStoryScene();
-                });
-            } else {
-                console.error('Intro speech not found');
-            }
-        });
-
-        const fadeDuration = 2000;
-        this.tweens.add({
-            targets: [...this.textLines],
-            alpha: 1,
-            duration: fadeDuration,
-            ease: 'Power2'
-        });
-
-        this.showSkipButton();
-
-        console.log('Prologue: setup completed');
-    }
-
-    showSkipButton() {
-        const skipButton = this.add.text(this.cameras.main.width - 40, this.cameras.main.height - 40, 'Skip', {
-            fontSize: '32px',
-            fill: '#ffffff'
-        })
-        .setOrigin(1)
-        .setInteractive()
-        .setAlpha(0);
-
-        skipButton.on('pointerup', () => {
-            console.log('Skip button pressed');
-            this.transitionToStoryScene();
-        });
-
-        this.tweens.add({
-            targets: skipButton,
-            alpha: 1,
-            duration: 1000,
-            ease: 'Power2'
-        });
-
-        // Make skip button disappear a couple of seconds before intro audio ends
-        this.time.delayedCall(53000, () => { // 55 seconds minus 2 seconds
-            this.tweens.add({
-                targets: skipButton,
-                alpha: 0,
-                duration: 1000,
-                ease: 'Power2',
-                onComplete: () => {
-                    skipButton.destroy();
-                }
+            buttonText.on('pointerdown', () => {
+                console.log(`${button.text} button clicked`);
+                this.transitionToScene(button.scene);
             });
         });
     }
 
-    transitionToStoryScene() {
-        console.log('Transitioning to StoryScene');
-        if (this.audioManager) {
-            // Specific fade-out for intro speech
-            const introSpeech = this.audioManager.playingSounds[this.introSpeechKey];
-            if (introSpeech) {
-                this.tweens.add({
-                    targets: introSpeech,
-                    volume: 0,
-                    duration: 1000,
-                    ease: 'Linear',
-                    onComplete: () => {
-                        this.audioManager.fadeOutAll(1000).then(() => {
-                            this.cameras.main.fade(1500, 0, 0, 0);
-                            this.time.delayedCall(1500, () => {
-                                this.scene.start('StoryScene');
-                            });
-                        });
-                    }
-                });
-            } else {
-                this.audioManager.fadeOutAll(1000).then(() => {
-                    this.cameras.main.fade(1500, 0, 0, 0);
-                    this.time.delayedCall(1500, () => {
-                        this.scene.start('StoryScene');
-                    });
-                });
-            }
-        } else {
-            this.cameras.main.fade(1500, 0, 0, 0);
-            this.time.delayedCall(1500, () => {
-                this.scene.start('StoryScene');
-            });
-        }
+    transitionToScene(sceneKey) {
+        this.audioManager.fadeOutAll(1000); // Fade out music before transitioning
+        this.cameras.main.fade(1500, 0, 0, 0);
+        this.time.delayedCall(1500, () => {
+            console.log(`Transitioning to ${sceneKey}`);
+            this.scene.start(sceneKey);
+        });
     }
 }
 
+// Export the Prologue class
 export default Prologue;
+
+
+
+
+
+

@@ -1,13 +1,32 @@
-import AudioManager from './AudioManager.js';
 import BackgroundManager from './BackgroundManager.js';
+import AudioManager from './AudioManager.js';
 import BootScene from './BootScene.js';
 import MainMenuScene from './MainMenuScene.js';
 import Prologue from './Prologue.js';
+import CreditsScene from './CreditsScene.js';
 
-// Define STORY_NAME and other constants
+//////////////////////////////////////////////////////////////
+// EASY-MODIFY SECTION
+// UPDATE VALUES IN THIS SECTION TO EASILY MODIFY GAME
+
+// Your chatbot's name
+// NOTE: Every new name for a chatbot creates a new save slot for the chat history.
 const STORY_NAME = "Steve's Space Adventure Mystery";
-const VERSION_NUMBER = 'v0.11.0-alpha';
-const PROJECT_NAME = `${STORY_NAME} AI Story ${VERSION_NUMBER}`;
+
+// This is information for the AI to understand how to behave. 
+// If you want to change the story please change STORY_DESCRIPTION.
+const NARRATOR_BEHAVIOUR_GUIDE = `
+- You are the external narrator of an expertly written story.
+- Speak as though you are an eloquent narrator that can draw in any reader. 
+- Speak in a way like this: "You arrive. What do you do next?"
+- You are an external narrator and are not inside the story.
+- Guide the story so it stays on track and make the player's actions fit. 
+- Keep your messages short.
+- End your messages with an action the player can take (e.g. "What do you do?", "What do you say?")
+`;
+
+// END OF EASY-MODIFY VALUES
+//////////////////////////////////////////////////////////////
 
 // Custom error handler for debugging
 function handleError(error, lineNumber) {
@@ -37,6 +56,10 @@ try {
 } catch (error) {
     handleError(error, /* specify line number if possible */);
 }
+
+// Updated version number
+const VERSION_NUMBER = 'v0.10.0';
+const PROJECT_NAME = `${STORY_NAME} AI Story ${VERSION_NUMBER}`;
 
 function addAudioAsset(sceneName, assetKey, url) {
     if (typeof globalAudioAssetManager === 'undefined') {
@@ -99,7 +122,7 @@ async function initializeGame() {
         }
         console.log('Phaser found');
 
-        const scenes = [BootScene, MainMenuScene, Prologue];
+        const scenes = [BootScene, MainMenuScene, Prologue, CreditsScene];
         console.log('Scenes to be added:', scenes.map(scene => scene.name));
 
         const config = {
@@ -169,6 +192,9 @@ addAudioAsset('BootScene', 'bootupBackground', 'https://cdn.glitch.global/c677e8
 addAudioAsset('CreditsScene', 'creditsBackground', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/AI%20art%20for%20credits%20scene%20background.png?v=1733356432906');
 
 initializeGame();
+
+
+
 
 
 
