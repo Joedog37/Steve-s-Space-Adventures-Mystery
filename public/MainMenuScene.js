@@ -1,5 +1,6 @@
 import BackgroundManager from './BackgroundManager.js';
 import AudioManager from './AudioManager.js';
+import { setupButtons } from './setupButtons.js';
 
 // --------------------------------- // MainMenuScene // --------------------------------- //
 class MainMenuScene extends Phaser.Scene {
@@ -101,38 +102,7 @@ class MainMenuScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // Setup buttons
-        this.setupButtons(centerX, versionText.y + versionText.height + 50);
-    }
-
-    setupButtons(centerX, startY) {
-        const buttonData = [
-            { text: 'Start Game', scene: 'Prologue' },
-            { text: 'Credits', scene: 'CreditsScene' }
-        ];
-
-        buttonData.forEach((button, index) => {
-            const buttonY = startY + index * 60;
-            const buttonText = this.add.text(centerX, buttonY, button.text, {
-                fontSize: '32px',
-                fill: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 4
-            }).setOrigin(0.5).setInteractive();
-
-            buttonText.on('pointerdown', () => {
-                console.log(`${button.text} button clicked`);
-                this.transitionToScene(button.scene);
-            });
-        });
-    }
-
-    transitionToScene(sceneKey) {
-        this.audioManager.fadeOutAll(1000); // Fade out music before transitioning
-        this.cameras.main.fade(1500, 0, 0, 0);
-        this.time.delayedCall(1500, () => {
-            console.log(`Transitioning to ${sceneKey}`);
-            this.scene.start(sceneKey);
-        });
+        setupButtons(this, centerX, versionText.y + versionText.height + 50);
     }
 }
 

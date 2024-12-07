@@ -4,6 +4,8 @@ import BootScene from './BootScene.js';
 import MainMenuScene from './MainMenuScene.js';
 import Prologue from './Prologue.js';
 import CreditsScene from './CreditsScene.js';
+import PauseMenuScene from './PauseMenuScene.js';
+import ExitConfirmationScene from './ExitConfirmationScene.js';
 
 //////////////////////////////////////////////////////////////
 // EASY-MODIFY SECTION
@@ -122,7 +124,7 @@ async function initializeGame() {
         }
         console.log('Phaser found');
 
-        const scenes = [BootScene, MainMenuScene, Prologue, CreditsScene];
+        const scenes = [BootScene, MainMenuScene, Prologue, CreditsScene, PauseMenuScene, ExitConfirmationScene];
         console.log('Scenes to be added:', scenes.map(scene => scene.name));
 
         const config = {

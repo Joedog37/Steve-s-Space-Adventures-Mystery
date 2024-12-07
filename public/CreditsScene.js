@@ -57,6 +57,9 @@ class CreditsScene extends Phaser.Scene {
             "Photo by Hristo Fidanov from Pexels",
             "https://www.pexels.com/photo/milky-way-galaxy-during-nighttime-1252890/",
             "",
+            "Galaxy Image",
+            "Image by Lumina Obscura from Pixabay",
+            "",
             "Voice Acting",
             "AI-generated voice by ElevenLabs",
             "",
@@ -77,7 +80,6 @@ class CreditsScene extends Phaser.Scene {
             "",
             "Tools Used",
             "Phaser",
-            "Visual Studio Code",
             "",
             "Disclaimer",
             "All characters, names, and events in this game are fictional.",
@@ -85,7 +87,11 @@ class CreditsScene extends Phaser.Scene {
             "",
             "© 2024 Joseph Rice. All rights reserved.",
             "",
-            "Thank you for playing!"
+            "Thank you for playing!",
+            "",
+            "Special Thanks to Microsoft Copilot",
+            "For helping to write the code for this game",
+            "From the creator of Thunderhead Pictures, Joseph Rice"
         ];
 
         const creditsText = this.add.text(centerX, this.cameras.main.height, creditsContent.join('\n'), {
@@ -189,5 +195,7 @@ class CreditsScene extends Phaser.Scene {
 }
 
 export default CreditsScene;
+
+
 
 
