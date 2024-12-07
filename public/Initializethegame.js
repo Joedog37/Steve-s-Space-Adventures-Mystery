@@ -5,7 +5,7 @@ import MainMenuScene from './MainMenuScene.js';
 
 // Define STORY_NAME and other constants
 const STORY_NAME = "Steve's Space Adventure Mystery";
-const VERSION_NUMBER = 'v0.10.0';
+const VERSION_NUMBER = 'v0.11.0-alpha';
 const PROJECT_NAME = `${STORY_NAME} AI Story ${VERSION_NUMBER}`;
 
 // Custom error handler for debugging

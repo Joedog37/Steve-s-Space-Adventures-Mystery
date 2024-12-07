@@ -3,6 +3,7 @@ class AudioManager {
     constructor(scene) {
         this.scene = scene;
         this.audioAssets = {};
+        this.playingSounds = {};
     }
 
     loadAudio() {
@@ -20,6 +21,19 @@ class AudioManager {
         this.audioAssets[key] = url;
     }
 
+    playIntroSpeech(key, fadeInDuration) {
+        const sound = this.scene.sound.add(key);
+        sound.play({ volume: 0 });
+        this.scene.tweens.add({
+            targets: sound,
+            volume: 1,
+            duration: fadeInDuration,
+            ease: 'Linear'
+        });
+        this.playingSounds[key] = sound;
+        return sound;
+    }
+
     playBackgroundMusic(key, fadeInDuration = 0) {
         if (this.scene.sound.get(key)) {
             this.scene.sound.stopAll();
@@ -32,6 +46,8 @@ class AudioManager {
             duration: fadeInDuration,
             ease: 'Linear'
         });
+        this.playingSounds[key] = music;
+        return music;
     }
 
     stopAllMusic() {
@@ -39,17 +55,22 @@ class AudioManager {
     }
 
     fadeOutAll(fadeOutDuration = 0) {
-        this.scene.tweens.add({
-            targets: this.scene.sound.getAll(),
-            volume: 0,
-            duration: fadeOutDuration,
-            ease: 'Linear',
-            onComplete: () => {
-                this.stopAllMusic();
-            }
+        return new Promise((resolve) => {
+            const sounds = Object.values(this.playingSounds);
+            this.scene.tweens.add({
+                targets: sounds,
+                volume: 0,
+                duration: fadeOutDuration,
+                ease: 'Linear',
+                onComplete: () => {
+                    sounds.forEach(sound => sound.stop());
+                    resolve();
+                }
+            });
         });
     }
 }
 
 export default AudioManager;
+
 

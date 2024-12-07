@@ -73,7 +73,7 @@ class MainMenuScene extends Phaser.Scene {
             repeat: -1
         });
 
-        const versionText = this.add.text(centerX, title.y + title.height + 20, 'Version v0.10.0 (alpha)', {
+        const versionText = this.add.text(centerX, title.y + title.height + 20, 'Version v0.11.0 (alpha)', {
             fontSize: '36px',
             fill: '#ffffff',
             stroke: '#000000',
