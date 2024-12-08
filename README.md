@@ -40,5 +40,22 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 - **Multiplayer Mode**: Introducing a multiplayer mode for collaborative gameplay.
 - **Enhanced Graphics**: Improving the graphics for a more immersive experience.
 
+## Next Steps
+
+### Full Screen Feature
+2. **Add Full Screen Option:**
+   - Implement a setting in the game to automatically switch to full screen when the game loads.
+
+### Episode Game Plan
+3. **Episode-Based Gameplay:**
+   - Plan and outline episodes for the game.
+   - Each episode will have its own storyline and objectives.
+   - Ensure smooth transitions between episodes.
+
+## Ideas and Improvements
+- Enhance the user interface for better navigation.
+- Add more interactive elements and choices for players.
+- Improve audio and visual effects for a more immersive experience.
+
 Stay tuned for updates and new features coming soon!
 
