@@ -1,7 +1,7 @@
 {
   "name": "steves-space-adventure-mystery",
   "version": "0.14.8-alpha",
-  "description": "A new project",
+  "description": "Welcome to Steve's Space Adventure Mystery! This project is an exciting space-themed game where players embark on thrilling adventures and solve mysteries in the vast expanse of space.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
