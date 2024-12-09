@@ -30,6 +30,34 @@ Steve's Space Adventure Mystery is a captivating game that combines exploration,
 
 We welcome contributions! If you have ideas or improvements, feel free to open an issue or submit a pull request.
 
+### Scenes Added
+
+Here are the scenes that have been added to the game:
+
+- **AgeScene.js**
+- **AudioManager.js**
+- **BackgroundManager.js**
+- **BootScene.js**
+- **CreditsScene.js**
+- **EpisodeSelectionScene.js**
+- **ExitConfirmationScene.js**
+- **GenderScene.js**
+- **InitializeTheGame.js**
+- **MainMenuScene.js**
+- **NameScene.js**
+- **PauseMenuScene.js**
+- **Prologue.js**
+- **SaveManager.js**
+- **SaveMenuScene.js**
+- **SettingsScene.js**
+- **TutorialScene.js**
+
+### Important Notes
+
+- **Auto-Save Feature**: The game includes an auto-save feature that updates the JSON file with the local storage data. This ensures that the player's progress is preserved even if the browser's local storage gets cleared.
+- **Loading Save Data**: The game automatically loads the save data from local storage when it starts, restoring the game state to where the player left off.
+- **Audio Management**: Ensure that audio files are correctly managed to avoid overlapping between scenes.
+
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
@@ -43,16 +71,19 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 ## Next Steps
 
 ### Full Screen Feature
+
 2. **Add Full Screen Option:**
    - Implement a setting in the game to automatically switch to full screen when the game loads.
 
 ### Episode Game Plan
+
 3. **Episode-Based Gameplay:**
    - Plan and outline episodes for the game.
    - Each episode will have its own storyline and objectives.
    - Ensure smooth transitions between episodes.
 
 ## Ideas and Improvements
+
 - Enhance the user interface for better navigation.
 - Add more interactive elements and choices for players.
 - Improve audio and visual effects for a more immersive experience.

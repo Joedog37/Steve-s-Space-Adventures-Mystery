@@ -1,8 +1,9 @@
+import SaveManager from './SaveManager.js';
+
 // --------------------------------- // PauseMenuScene // --------------------------------- //
 class PauseMenuScene extends Phaser.Scene {
     constructor() {
         super('PauseMenuScene');
-        this.messageText = null;
     }
 
     preload() {
@@ -32,42 +33,37 @@ class PauseMenuScene extends Phaser.Scene {
             }
         };
 
-        this.messageText = this.add.text(centerX, centerY - 150, '', {
-            fontSize: '28px',
-            fill: '#ff0',
-            stroke: '#000000',
-            strokeThickness: 4,
-            align: 'center'
-        }).setOrigin(0.5);
-
         const saveButton = this.add.text(centerX, centerY - 60, 'Save Game', buttonStyle)
             .setOrigin(0.5)
             .setInteractive({ useHandCursor: true })
             .on('pointerover', () => saveButton.setStyle({ fill: '#ff0' }))
             .on('pointerout', () => saveButton.setStyle({ fill: '#ffffff' }))
             .on('pointerdown', () => {
-                this.saveGame();
-                this.showMessage('Game saved successfully!');
+                const slotName = prompt('Enter save slot name:');
+                if (slotName) {
+                    this.saveGame(slotName);
+                    this.showMessage('Game saved successfully!');
+                }
             });
 
-        const loadButton = this.add.text(centerX, centerY, 'Load Game', buttonStyle)
+        const backupButton = this.add.text(centerX, centerY, 'Backup Game', buttonStyle)
             .setOrigin(0.5)
             .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => loadButton.setStyle({ fill: '#ff0' }))
-            .on('pointerout', () => loadButton.setStyle({ fill: '#ffffff' }))
+            .on('pointerover', () => backupButton.setStyle({ fill: '#ff0' }))
+            .on('pointerout', () => backupButton.setStyle({ fill: '#ffffff' }))
             .on('pointerdown', () => {
-                const result = this.loadGame();
-                this.showMessage(result ? 'Game loaded successfully!' : 'No saved game found.');
+                this.backupGame();
+                this.showMessage('Game backed up successfully!');
             });
 
-        const settingsButton = this.add.text(centerX, centerY + 60, 'Settings', buttonStyle)
+        const restoreButton = this.add.text(centerX, centerY + 60, 'Restore Game', buttonStyle)
             .setOrigin(0.5)
             .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => settingsButton.setStyle({ fill: '#ff0' }))
-            .on('pointerout', () => settingsButton.setStyle({ fill: '#ffffff' }))
+            .on('pointerover', () => restoreButton.setStyle({ fill: '#ff0' }))
+            .on('pointerout', () => restoreButton.setStyle({ fill: '#ffffff' }))
             .on('pointerdown', () => {
-                this.scene.stop('PauseMenuScene');
-                this.scene.launch('SettingsScene');
+                this.restoreGame();
+                this.showMessage('Game restored successfully!');
             });
 
         const resumeButton = this.add.text(centerX, centerY + 120, 'Resume Game', buttonStyle)
@@ -77,84 +73,72 @@ class PauseMenuScene extends Phaser.Scene {
             .on('pointerout', () => resumeButton.setStyle({ fill: '#ffffff' }))
             .on('pointerdown', () => this.resumeGame());
 
-        const exitButton = this.add.text(centerX, centerY + 180, 'Exit Game', buttonStyle)
-            .setOrigin(0.5)
-            .setInteractive({ useHandCursor: true })
-            .on('pointerover', () => exitButton.setStyle({ fill: '#ff0' }))
-            .on('pointerout', () => exitButton.setStyle({ fill: '#ffffff' }))
-            .on('pointerdown', () => this.scene.start('ExitConfirmationScene'));
-
-        this.input.keyboard.on('keydown-ESC', () => {
-            this.scene.pause();
-            this.scene.launch('PauseMenuScene');
-        });
-
         console.log('PauseMenuScene: create completed');
     }
 
-    saveGame() {
-        let gameState = {};
+    saveGame(slotName) {
+        let gameState = {
+            // Include relevant state information here
+        };
 
-        if (this.scene.isPaused('StoryScene')) {
-            const storyScene = this.scene.get('StoryScene');
-            gameState = {
-                scene: 'StoryScene',
-                currentStoryIndex: storyScene.currentStoryIndex,
-                // Include other relevant state information here
-            };
-        } else if (this.scene.isPaused('IntroScene')) {
-            const introScene = this.scene.get('IntroScene');
-            gameState = {
-                scene: 'IntroScene',
-                introCompleted: introScene.introCompleted,
-                // Include other relevant state information here
-            };
-        }
-
-        localStorage.setItem('gameState', JSON.stringify(gameState));
-        console.log('Game saved');
+        localStorage.setItem(slotName, JSON.stringify(gameState));
     }
 
-    loadGame() {
-        const savedState = JSON.parse(localStorage.getItem('gameState'));
-        if (savedState) {
-            if (savedState.scene === 'StoryScene') {
-                const storyScene = this.scene.get('StoryScene');
-                storyScene.currentStoryIndex = savedState.currentStoryIndex;
-                // Apply other state information here
-                this.resumeGame('StoryScene');
-            } else if (savedState.scene === 'IntroScene') {
-                const introScene = this.scene.get('IntroScene');
-                introScene.introCompleted = savedState.introCompleted;
-                // Apply other state information here
-                this.resumeGame('IntroScene');
-            }
-            return true;
-        } else {
-            console.log('No saved game found');
-            return false;
-        }
+    backupGame() {
+        const saveData = JSON.stringify(localStorage);
+        const blob = new Blob([saveData], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'backup.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    restoreGame() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'application/json';
+        input.onchange = (event) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const saveData = JSON.parse(e.target.result);
+                for (const key in saveData) {
+                    localStorage.setItem(key, saveData[key]);
+                }
+                this.showMessage('Game restored successfully!');
+            };
+            reader.readAsText(file);
+        };
+        input.click();
     }
 
     showMessage(message) {
-        this.messageText.setText(message);
+        const messageText = this.add.text(this.cameras.main.width / 2, this.cameras.main.height - 50, message, {
+            fontSize: '24px',
+            fill: '#ffffff',
+            align: 'center'
+        }).setOrigin(0.5);
+
         this.tweens.add({
-            targets: this.messageText,
+            targets: messageText,
             alpha: { from: 1, to: 0 },
             duration: 3000,
             ease: 'Linear',
             onComplete: () => {
-                this.messageText.setText('');
-                this.messageText.setAlpha(1);
+                messageText.destroy();
             }
         });
     }
 
-    resumeGame(scene) {
+    resumeGame() {
         this.scene.stop('PauseMenuScene');
-        this.scene.resume(scene || 'StoryScene');
+        this.scene.resume('StoryScene'); // Adjust this to the appropriate scene
     }
 }
 
-// Export the PauseMenuScene class
 export default PauseMenuScene;
+
