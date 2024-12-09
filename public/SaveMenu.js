@@ -1,23 +1,19 @@
-import BackgroundManager from './BackgroundManager.js';
-import AudioManager from './AudioManager.js';
 import SaveManager from './SaveManager.js';
 
-class SaveMenuScene extends Phaser.Scene {
+class SaveMenu extends Phaser.Scene {
     constructor() {
-        super('SaveMenuScene');
+        super('SaveMenu');
     }
 
     preload() {
-        console.log('SaveMenuScene: preload started');
-        this.audioManager = new AudioManager(this);
-        this.audioManager.loadAudio();
+        console.log('SaveMenu: preload started');
         this.load.image('backgroundSave', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/SaveBack.png?v=1733615826069'); // Load background image
         this.load.image('popup', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/save.png?v=1733678854769'); // Load pop-up image
-        console.log('SaveMenuScene: preload completed');
+        console.log('SaveMenu: preload completed');
     }
 
     create() {
-        console.log('SaveMenuScene: create started');
+        console.log('SaveMenu: create started');
         this.children.removeAll();
 
         const centerX = this.cameras.main.width / 2;
@@ -68,7 +64,7 @@ class SaveMenuScene extends Phaser.Scene {
             }
         });
 
-        console.log('SaveMenuScene: create completed');
+        console.log('SaveMenu: create completed');
 
         // Automatically load the save data from local storage
         this.loadFromLocalStorage();
@@ -87,7 +83,7 @@ class SaveMenuScene extends Phaser.Scene {
             const currentDate = new Date().toLocaleDateString();
             const newText = `${saveSlotText.episodeName} - ${currentDate}`;
             saveSlotText.setText(newText);
-            const success = SaveManager.saveGame(`saveSlot${slotNumber}`, { episode: saveSlotText.episodeName, date: currentDate, scene: this.scene.key, gender: localStorage.getItem('gender') });
+            const success = SaveManager.saveGame(`saveSlot${slotNumber}`, { episode: saveSlotText.episodeName, date: currentDate });
             if (!success) {
                 this.showErrorMessage('Error saving game. Please try again.');
             } else {
@@ -110,8 +106,7 @@ class SaveMenuScene extends Phaser.Scene {
         if (savedState) {
             console.log('Loaded state:', savedState);
             // Restore the game state based on the saved data
-            localStorage.setItem('gender', savedState.gender); // Restore gender
-            this.scene.start(savedState.scene); // Progress to the saved scene
+            this.scene.start('EpisodeSelectionScene'); // Progress to the next scene
         } else {
             this.showErrorMessage('Error loading game. Please try again.');
         }
@@ -159,30 +154,4 @@ class SaveMenuScene extends Phaser.Scene {
     }
 }
 
-export default SaveMenuScene;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default SaveMenu;

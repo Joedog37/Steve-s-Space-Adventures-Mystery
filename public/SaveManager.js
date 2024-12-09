@@ -5,15 +5,18 @@ class SaveManager {
             console.log(`Game saved in slot: ${slotName}`);
         } catch (error) {
             console.error('Error saving data:', error);
+            return false; // Indicate that the save operation failed
         }
+        return true; // Indicate that the save operation succeeded
     }
 
     static loadGame(slotName) {
         try {
-            const savedState = JSON.parse(localStorage.getItem(slotName));
+            const savedState = localStorage.getItem(slotName);
             if (savedState) {
+                const parsedState = JSON.parse(savedState);
                 console.log(`Game loaded from slot: ${slotName}`);
-                return savedState;
+                return parsedState;
             } else {
                 console.log(`No saved game found in slot: ${slotName}`);
                 return null;
@@ -46,7 +49,11 @@ class SaveManager {
         const allGames = {};
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
-            allGames[key] = JSON.parse(localStorage.getItem(key));
+            try {
+                allGames[key] = JSON.parse(localStorage.getItem(key));
+            } catch (error) {
+                console.error('Error parsing data:', error);
+            }
         }
         console.log('All games loaded:', allGames);
         return allGames;
@@ -54,3 +61,5 @@ class SaveManager {
 }
 
 export default SaveManager;
+
+
