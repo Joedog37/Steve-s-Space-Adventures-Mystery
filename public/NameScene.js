@@ -11,7 +11,7 @@ class NameScene extends Phaser.Scene {
         // Load your audio file
         this.load.audio('nameSpeech', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/whats%20your%20name%20Andrew%20J%20Griffin%20recoderd%20on%2012-08-2024.mp3?v=1733669175735');
         // Load the auto-save icon
-        this.load.image('autoSaveIcon', 'path/to/autoSaveIcon.png');
+        this.load.image('autoSaveIcon', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/autoSaveIcon.png?v=1733678854769'); // Ensure the path is correct
     }
 
     create() {
@@ -115,39 +115,43 @@ class NameScene extends Phaser.Scene {
             // Save the player's name to local storage
             localStorage.setItem('playerName', playerName);
             // Auto-save the game state
-            this.autoSave();
+            this.autoSave('AgeScene');
             // Remove the input elements from the DOM
             document.body.removeChild(nameInput);
             document.body.removeChild(submitButton);
+            // Show the auto-save icon
+            this.showAutoSaveIcon();
             // Proceed to the next scene
             this.scene.start('AgeScene');
         });
     }
 
-    autoSave() {
+    autoSave(nextScene) {
         const saveData = {
-            playerName: localStorage.getItem('playerName')
+            playerName: localStorage.getItem('playerName'),
+            nextScene: nextScene // Save the next scene name
         };
 
-        // Send the save data to the server
-        fetch('/save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(saveData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Save successful:', data);
-        })
-        .catch(error => {
+        // Save to local storage
+        try {
+            localStorage.setItem('saveData', JSON.stringify(saveData));
+            console.log('Auto-save successful:', saveData);
+        } catch (error) {
             console.error('Error saving data:', error);
-        });
+        }
+    }
+
+    showAutoSaveIcon() {
+        // Add auto-save icon
+        const autoSaveIcon = this.add.image(50, 50, 'autoSaveIcon').setOrigin(0.5);
+        autoSaveIcon.setDisplaySize(32, 32); // Adjust the size as needed
     }
 }
 
 export default NameScene;
+
+
+
 
 
 
