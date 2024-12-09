@@ -55,8 +55,13 @@ class Prologue extends Phaser.Scene {
         this.load.start();
 
         this.setupIntroScene(centerX, centerY);
-        this.showSkipButton();
         console.log('Prologue: create completed');
+
+        // Add ESC key functionality to pause the game
+        this.input.keyboard.on('keydown-ESC', () => {
+            this.scene.pause();
+            this.scene.launch('PauseMenuScene');
+        });
     }
 
     setupIntroScene(centerX, centerY) {
@@ -124,124 +129,6 @@ class Prologue extends Phaser.Scene {
         });
     }
 
-    showSkipButton() {
-        const skipButton = this.add.text(this.cameras.main.width - 40, this.cameras.main.height - 40, 'Skip', {
-            fontSize: '32px',
-            fill: '#ffffff'
-        })
-        .setOrigin(1)
-        .setInteractive()
-        .setAlpha(1);
-
-        skipButton.on('pointerup', () => {
-            console.log('Skip button pressed');
-            this.transitionToScene('MainMenuScene');
-        });
-
-        this.tweens.add({
-            targets: skipButton,
-            alpha: 1,
-            duration: 1000,
-            ease: 'Power2'
-        });
-
-        // Make skip button disappear a couple of seconds before intro audio ends
-        this.time.delayedCall(58000, () => { // 60 seconds minus 2 seconds
-            this.tweens.add({
-                targets: skipButton,
-                alpha: 0,
-                duration: 1000,
-                ease: 'Power2',
-                onComplete: () => {
-                    skipButton.destroy();
-                }
-            });
-        });
-    }
-
-    setupPrologue(centerX, centerY) {
-        const title = this.add.text(centerX, centerY - 300, "Prologue", {
-            fontSize: '72px',
-            fontStyle: 'bold',
-            fill: '#ffffff',
-            stroke: '#000000',
-            strokeThickness: 8,
-            shadow: {
-                offsetX: 2,
-                offsetY: 2,
-                color: '#000000',
-                blur: 5,
-                stroke: true,
-                fill: true
-            },
-            wordWrap: false
-        }).setOrigin(0.5);
-
-        if (title.width > this.cameras.main.width - 100) {
-            title.setFontSize(64);
-        }
-
-        this.tweens.add({
-            targets: title,
-            y: title.y + 5,
-            duration: 4000,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
-        });
-
-        const versionText = this.add.text(centerX, title.y + title.height + 20, 'Version v0.10.0 (alpha)', {
-            fontSize: '36px',
-            fill: '#ffffff',
-            stroke: '#000000',
-            strokeThickness: 6,
-            shadow: {
-                offsetX: 2,
-                offsetY: 2,
-                color: '#000000',
-                blur: 3,
-                stroke: true,
-                fill: true
-            }
-        }).setOrigin(0.5);
-
-        // Add Disclaimer Text
-        const disclaimerBg = this.add.rectangle(centerX, this.cameras.main.height - 25, this.cameras.main.width, 50, 0x000000, 0.5);
-        const disclaimer = this.add.text(centerX, this.cameras.main.height - 25, "Alpha Version: This game is in early development. Features may be incomplete or change.", {
-            fontSize: '20px',
-            fill: '#ffffff',
-            align: 'center',
-            wordWrap: {
-                width: this.cameras.main.width - 40
-            }
-        }).setOrigin(0.5);
-
-        // Setup buttons
-        this.setupButtons(centerX, versionText.y + versionText.height + 50);
-    }
-
-    setupButtons(centerX, startY) {
-        const buttonData = [
-            { text: 'Continue', scene: 'MainMenuScene' },
-            { text: 'Credits', scene: 'CreditsScene' }
-        ];
-
-        buttonData.forEach((button, index) => {
-            const buttonY = startY + index * 60;
-            const buttonText = this.add.text(centerX, buttonY, button.text, {
-                fontSize: '32px',
-                fill: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 4
-            }).setOrigin(0.5).setInteractive();
-
-            buttonText.on('pointerdown', () => {
-                console.log(`${button.text} button clicked`);
-                this.transitionToScene(button.scene);
-            });
-        });
-    }
-
     transitionToScene(sceneKey) {
         this.audioManager.fadeOutAll(1000); // Fade out music before transitioning
         this.cameras.main.fade(1500, 0, 0, 0);
@@ -250,10 +137,22 @@ class Prologue extends Phaser.Scene {
             this.scene.start(sceneKey);
         });
     }
+
+    autoSave() {
+        const saveData = {
+            scene: 'Prologue',
+            timestamp: new Date().toISOString()
+        };
+
+        // Save the data to local storage
+        localStorage.setItem('saveData', JSON.stringify(saveData));
+        console.log('Auto-save successful:', saveData);
+    }
 }
 
 // Export the Prologue class
 export default Prologue;
+
 
 
 

@@ -2,9 +2,15 @@ import BackgroundManager from './BackgroundManager.js';
 import AudioManager from './AudioManager.js';
 import BootScene from './BootScene.js';
 import MainMenuScene from './MainMenuScene.js';
+import SaveMenuScene from './SaveMenuScene.js'; // Corrected import statement
 import Prologue from './Prologue.js';
 import CreditsScene from './CreditsScene.js';
 import PauseMenuScene from './PauseMenuScene.js';
+import SettingsScene from './SettingsScene.js';
+import EpisodeSelectionScene from './EpisodeSelectionScene.js';
+import NameScene from './NameScene.js';
+import AgeScene from './AgeScene.js'
+import GenderScene from './GenderScene.js'
 import ExitConfirmationScene from './ExitConfirmationScene.js';
 
 //////////////////////////////////////////////////////////////
@@ -60,7 +66,7 @@ try {
 }
 
 // Updated version number
-const VERSION_NUMBER = 'v0.10.0';
+const VERSION_NUMBER = 'v0.14.8';
 const PROJECT_NAME = `${STORY_NAME} AI Story ${VERSION_NUMBER}`;
 
 function addAudioAsset(sceneName, assetKey, url) {
@@ -116,15 +122,12 @@ const globalAudioAssetManager = new AudioAssetManager();
 async function initializeGame() {
     try {
         console.log('Initializing game...');
-        await loadScript('https://play.rosebud.ai/assets/rosebud_AI_story_template_desktop_library.js.js?BzI8');
-        console.log('External script loaded successfully');
-
         if (typeof Phaser === 'undefined') {
             throw new Error('Phaser not found after script load');
         }
         console.log('Phaser found');
 
-        const scenes = [BootScene, MainMenuScene, Prologue, CreditsScene, PauseMenuScene, ExitConfirmationScene];
+        const scenes = [BootScene, MainMenuScene, SaveMenuScene, EpisodeSelectionScene, NameScene, AgeScene, GenderScene, Prologue, PauseMenuScene,SettingsScene, CreditsScene, ExitConfirmationScene,];
         console.log('Scenes to be added:', scenes.map(scene => scene.name));
 
         const config = {

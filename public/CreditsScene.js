@@ -63,6 +63,12 @@ class CreditsScene extends Phaser.Scene {
             "Voice Acting",
             "AI-generated voice by ElevenLabs",
             "",
+            "Voice by Joseph Rice",
+            "Voice changed by Eleven Labs.io AI Andrew J Griffin",
+            "",
+            "\"What's your age?\" - Andrew J Griffin",
+            "\"What's your name?\" - Andrew J Griffin",
+            "",
             "Music",
             "Track: \"Journey's End\"",
             "Composed by: Suno AI (https://suno.ai), Version 3.5",
@@ -81,17 +87,15 @@ class CreditsScene extends Phaser.Scene {
             "Tools Used",
             "Phaser",
             "",
+            "Assets",
+            "UI Elements by lemongreen",
+            "Licensed under Creative Commons Attribution v4.0 International",
+            "Source: Itch.io",
+            "",
             "Disclaimer",
             "All characters, names, and events in this game are fictional.",
             "Any resemblance to real persons, living or dead, or actual events is purely coincidental.",
-            "",
-            "© 2024 Joseph Rice. All rights reserved.",
-            "",
-            "Thank you for playing!",
-            "",
-            "Special Thanks to Microsoft Copilot",
-            "For helping to write the code for this game",
-            "From the creator of Thunderhead Pictures, Joseph Rice"
+            "© 2024 Joseph Rice. All rights reserved."
         ];
 
         const creditsText = this.add.text(centerX, this.cameras.main.height, creditsContent.join('\n'), {
@@ -129,15 +133,61 @@ class CreditsScene extends Phaser.Scene {
             duration: scrollDuration,
             ease: 'Linear',
             onComplete: () => {
-                this.audioManager.stopAllMusic(); // Stop credits music before transitioning
-                this.cameras.main.fadeOut(1500, 0, 0, 0);
-                this.time.delayedCall(1500, () => {
-                    this.scene.start('MainMenuScene');
-                });
+                this.showThankYouMessage();
             }
         });
 
         this.showSkipButton(scrollDuration);
+    }
+
+    showThankYouMessage() {
+        const centerX = this.cameras.main.width / 2;
+        const centerY = this.cameras.main.height / 2;
+
+        const thankYouText = this.add.text(centerX, centerY, 'Thank you for playing!', {
+            fontSize: '48px',
+            fill: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 6,
+            shadow: {
+                offsetX: 2,
+                offsetY: 2,
+                color: '#000000',
+                blur: 3,
+                stroke: true,
+                fill: true
+            }
+        }).setOrigin(0.5).setAlpha(0);
+
+        this.tweens.add({
+            targets: thankYouText,
+            alpha: 1,
+            duration: 2000,
+            ease: 'Power2',
+            onComplete: () => {
+                this.time.delayedCall(3000, () => {
+                    this.fadeOutBackgroundMusic();
+                });
+            }
+        });
+    }
+
+    fadeOutBackgroundMusic() {
+        const music = this.sound.get('creditsBackgroundMusic');
+        if (music) {
+            this.tweens.add({
+                targets: music,
+                volume: 0,
+                duration: 2000,
+                ease: 'Power2',
+                onComplete: () => {
+                    this.audioManager.stopAllMusic();
+                    this.transitionToMainMenu();
+                }
+            });
+        } else {
+            this.transitionToMainMenu();
+        }
     }
 
     showSkipButton(scrollDuration) {
@@ -186,8 +236,7 @@ class CreditsScene extends Phaser.Scene {
     }
 
     transitionToMainMenu() {
-        this.audioManager.stopAllMusic(); // Stop credits music before transitioning
-        this.cameras.main.fade(1500, 0, 0, 0);
+        this.cameras.main.fadeOut(1500, 0, 0, 0);
         this.time.delayedCall(1500, () => {
             this.scene.start('MainMenuScene');
         });
@@ -195,6 +244,9 @@ class CreditsScene extends Phaser.Scene {
 }
 
 export default CreditsScene;
+
+
+
 
 
 
