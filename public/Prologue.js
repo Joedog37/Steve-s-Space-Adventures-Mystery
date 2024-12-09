@@ -1,7 +1,6 @@
 import BackgroundManager from './BackgroundManager.js';
 import AudioManager from './AudioManager.js';
 
-// --------------------------------- // Prologue // --------------------------------- //
 class Prologue extends Phaser.Scene {
     constructor() {
         super({ key: 'Prologue' });
@@ -22,6 +21,9 @@ class Prologue extends Phaser.Scene {
         // Load the intro speech
         this.audioManager.addAudioAsset('introSpeech', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/Intro%20speech%20ai%20Andrew%20English.mp3?v=1733579526990');
         this.audioManager.loadAudio();
+
+        // Load the auto-save icon
+        this.load.image('autoSaveIcon', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/floppy-disc.gif?v=1733780136985'); // Ensure the path is correct
 
         console.log('Prologue: preload completed');
     }
@@ -62,6 +64,20 @@ class Prologue extends Phaser.Scene {
             this.scene.pause();
             this.scene.launch('PauseMenuScene');
         });
+
+        // Show the auto-save icon
+        const autoSaveIcon = this.add.image(this.cameras.main.width - 50, 50, 'autoSaveIcon').setOrigin(0.5);
+        autoSaveIcon.setDisplaySize(32, 32); // Adjust the size as needed
+        autoSaveIcon.setAlpha(0); // Set initial alpha to 0 for fade-in effect
+        this.tweens.add({
+            targets: autoSaveIcon,
+            alpha: 1,
+            duration: 500,
+            ease: 'Power2'
+        });
+
+        // Perform auto-save
+        this.autoSave();
     }
 
     setupIntroScene(centerX, centerY) {

@@ -2,15 +2,15 @@ import BackgroundManager from './BackgroundManager.js';
 import AudioManager from './AudioManager.js';
 import BootScene from './BootScene.js';
 import MainMenuScene from './MainMenuScene.js';
-import SaveMenuScene from './SaveMenuScene.js'; // Corrected import statement
+import SaveMenuScene from './SaveMenuScene.js';
+import IntroScene1 from './IntroScene1.js';
+import IntroScene2 from './IntroScene2.js';
+import IntroScene3 from './IntroScene3.js';
 import Prologue from './Prologue.js';
 import CreditsScene from './CreditsScene.js';
 import PauseMenuScene from './PauseMenuScene.js';
 import SettingsScene from './SettingsScene.js';
 import EpisodeSelectionScene from './EpisodeSelectionScene.js';
-import NameScene from './NameScene.js';
-import AgeScene from './AgeScene.js'
-import GenderScene from './GenderScene.js'
 import ExitConfirmationScene from './ExitConfirmationScene.js';
 
 //////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ async function initializeGame() {
         }
         console.log('Phaser found');
 
-        const scenes = [BootScene, MainMenuScene, SaveMenuScene, EpisodeSelectionScene, NameScene, AgeScene, GenderScene, Prologue, PauseMenuScene,SettingsScene, CreditsScene, ExitConfirmationScene,];
+        const scenes = [BootScene, MainMenuScene, SaveMenuScene, EpisodeSelectionScene, IntroScene1, IntroScene2, IntroScene3, Prologue, PauseMenuScene,SettingsScene, CreditsScene, ExitConfirmationScene,];
         console.log('Scenes to be added:', scenes.map(scene => scene.name));
 
         const config = {

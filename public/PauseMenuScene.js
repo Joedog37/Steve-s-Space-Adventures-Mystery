@@ -141,4 +141,3 @@ class PauseMenuScene extends Phaser.Scene {
 }
 
 export default PauseMenuScene;
-
