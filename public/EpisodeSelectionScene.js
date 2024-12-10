@@ -14,10 +14,8 @@ class EpisodeSelectionScene extends Phaser.Scene {
         console.log('EpisodeSelectionScene: preload started');
         this.audioManager = new AudioManager(this);
         this.audioManager.loadAudio();
-        this.load.image('backgroundEpisode', 'path/to/your/background/image.png'); // Load background image
         this.load.image('leftArrow', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/Left%20Arrow.png?v=1733688159310'); // Load left arrow image
         this.load.image('rightArrow', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/Right%20Arrow.png?v=1733687871958'); // Load right arrow image
-        this.load.image('placeholder', 'path/to/your/placeholder/image.png'); // Load placeholder image
         this.load.audio('buttonClick', 'https://cdn.glitch.global/c677e889-faf8-4d6d-99af-3bcd7b640617/721257__anjashosting__ui_button_click.mp3?v=1733689396288'); // Load button click sound effect
         console.log('EpisodeSelectionScene: preload completed');
     }
@@ -31,10 +29,6 @@ class EpisodeSelectionScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#000000');
         this.cameras.main.fadeIn(1500);
-
-        // Add background image
-        this.background = this.add.image(centerX, centerY, 'backgroundEpisode').setOrigin(0.5);
-        this.background.setDisplaySize(this.cameras.main.width, this.cameras.main.height); // Ensure the image is scaled to fit the screen
 
         // Add title
         const title = this.add.text(centerX, 100, 'Select Episode', {
@@ -105,7 +99,7 @@ class EpisodeSelectionScene extends Phaser.Scene {
                 this.sound.play('buttonClick');
                 this.time.delayedCall(100, () => {
                     if (this.currentEpisode === 1) {
-                        this.startEpisode('NameScene');
+                        this.startEpisode('IntroScene1');
                     } else {
                         this.startEpisode(`Episode${this.currentEpisode}Scene`);
                     }
@@ -113,7 +107,7 @@ class EpisodeSelectionScene extends Phaser.Scene {
             }
         });
 
-        // Set initial episode background
+        // Set initial episode display
         this.updateEpisodeDisplay();
 
         console.log('EpisodeSelectionScene: create completed');
@@ -133,15 +127,12 @@ class EpisodeSelectionScene extends Phaser.Scene {
     updateEpisodeDisplay() {
         switch (this.currentEpisode) {
             case 1:
-                this.background.setTexture('placeholder');
                 this.episodeTitle.setText('Episode 1: The Beginning');
                 break;
             case 2:
-                this.background.setTexture('placeholder');
                 this.episodeTitle.setText('Episode 2: The Journey Continues');
                 break;
             case 3:
-                this.background.setTexture('placeholder');
                 this.episodeTitle.setText('Episode 3');
                 break;
             // Add more cases if you have more episodes
@@ -188,6 +179,7 @@ class EpisodeSelectionScene extends Phaser.Scene {
 }
 
 export default EpisodeSelectionScene;
+
 
 
 
